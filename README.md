@@ -14,9 +14,10 @@ Bot: *enhances your prompt, generates video, saves to Desktop*
 Supports:
 - **Text-to-Video** — Describe a scene, get a video
 - **Image-to-Video** — Animate a still image
-- **Audio-to-Video** — Generate video synced to audio
-- **Camera presets** — dolly, pan, crane, handheld
+- **Audio-to-Video** — Generate video synced to audio (lip sync, music videos)
+- **Camera presets** — dolly, pan, crane, handheld, orbit, tracking
 - **AI audio** — synchronized sound effects, dialog, ambient
+- **Prompt enhancement** — turns basic ideas into cinematic prompts
 
 ## Quick Install
 
@@ -27,14 +28,12 @@ npx clawdhub@latest install cineclaw
 
 ### Option 2: Manual
 ```bash
-# Copy the skill to your OpenClaw skills folder
-cp -r cineclaw-skill ~/.openclaw/skills/cineclaw
+cp -r cineclaw ~/.openclaw/workspace/skills/cineclaw
 ```
 
 ### Option 3: Just paste the GitHub link to your bot
-Tell your OpenClaw bot:
 ```
-Install the skill from https://github.com/YOUR_USER/cineclaw-skill
+Install the skill from https://github.com/babakarto/cineclaw
 ```
 
 ## Setup
@@ -42,7 +41,8 @@ Install the skill from https://github.com/YOUR_USER/cineclaw-skill
 1. Get an API key at [console.ltx.video](https://console.ltx.video)
 2. Set it as an environment variable:
 ```bash
-echo "LTX_API_KEY=your_key_here" >> ~/.openclaw/.env
+echo 'export LTX_API_KEY="your_key_here"' >> ~/.bashrc
+source ~/.bashrc
 ```
 3. Done. Start generating.
 
@@ -73,7 +73,7 @@ echo "LTX_API_KEY=your_key_here" >> ~/.openclaw/.env
 | Model | Speed | Quality | Best For |
 |-------|-------|---------|----------|
 | ltx-2-fast | ~5-15s | Good | Drafts, iteration, previews |
-| ltx-2-pro | ~30-90s | Cinematic | Final output, client work |
+| ltx-2-pro | ~30-90s | Cinematic | Final output, client work, A2V |
 
 ## Pricing
 
@@ -90,14 +90,30 @@ A typical 6-second fast preview costs about $0.12. The bot always estimates cost
 
 ```
 cineclaw/
-├── SKILL.md                          # Main skill (OpenClaw reads this)
+├── SKILL.md                              # Main skill (OpenClaw reads this)
 ├── references/
-│   ├── ltx-api.md                    # API endpoints, params, errors
-│   └── prompting-guide.md            # How to write great video prompts
+│   ├── ltx-api.md                        # API endpoints, params, errors
+│   ├── prompting-guide.md                # How to write great video prompts
+│   └── ltx2-prompt-guide-advanced.md     # Deep research from X/Twitter community
 ├── scripts/
-│   └── ltx_generate.py               # Python script for all API calls
-└── README.md                         # This file
+│   └── ltx_generate.py                   # Python script for all API calls
+├── README.md                             # This file
+└── LICENSE                               # MIT
 ```
+
+## Prompting Tips (Quick Reference)
+
+**Structure:** `[Scene]. [Subject]. [Action]. [Camera]. [Style].`
+
+**Always start with the scene** — prevents morphing and inconsistencies.
+
+**Key style keywords:** `35mm film`, `halation`, `shallow depth of field`, `golden hour`, `cinematic lighting`
+
+**I2V tip:** Always add `"Static camera. No camera movement."` to prevent unwanted dolly/zoom.
+
+**A2V tip:** Match audio emotion to prompt emotion. Isolate vocals for music videos.
+
+See `references/prompting-guide.md` for the full guide with examples.
 
 ## Roadmap
 
@@ -120,4 +136,4 @@ MIT
 
 - [LTX-2](https://ltx.io/model) by [Lightricks](https://www.lightricks.com/) — the video generation model
 - [OpenClaw](https://openclaw.ai) — the AI agent platform
-- Prompting guide based on [official LTX docs](https://docs.ltx.video/api-documentation/prompting-guide) and community research
+- Prompting guide based on [official LTX docs](https://ltx.video/blog/how-to-prompt-for-ltx-2), community research (700+ tweets analyzed), and [walterlow/ltx-2-prompt](https://github.com/walterlow/ltx-2-prompt)
